@@ -32,6 +32,8 @@ cd
 # Get a new privatekey by going to console >> debug and typing masternode genkey
 printf "Enter Masternode PrivateKey: "
 read _nodePrivateKey
+printf "Enter Masterode BLS PrivateKey: "
+read _nodeBlsPrivateKey
 
 # Choose a random and secure password for the RPC
 _rpcPassword=$(head /dev/urandom | tr -dc A-Z0-9 | head -c 32 ; echo '')
@@ -56,6 +58,7 @@ cd ~/.geekcash/
 echo "rpcuser=root
 rpcpassword=${_rpcPassword}
 rpcallowip=127.0.0.1
+rpcport=6888
 listen=1
 server=1
 daemon=1
@@ -65,6 +68,8 @@ txindex=1
 masternode=1
 ${external_ip_line}
 masternodeprivkey=${_nodePrivateKey}
+masternodeblsprivkey=${_nodeBlsPrivateKey}
+debug=0
 " > geekcash.conf
 cd
 
@@ -91,6 +96,7 @@ fi
 
 # Firewall security measures
 sudo ufw allow 6889
+sudo ufw allow 6888
 sudo ufw allow ssh
 sudo ufw logging on
 sudo ufw default allow outgoing
